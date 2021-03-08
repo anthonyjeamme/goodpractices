@@ -27,3 +27,76 @@ const MySuperComponent = () => {
 _MySuperComponent.jsx_
 
 > Why ? The developer can easily find the file of where the Component is implemented.
+
+## Hooks
+
+- Use Custom React hooks every time you can.
+
+```jsx
+// Bad
+const MyComponent = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(true);
+  };
+
+  return (
+    <div className="MyComponent">
+      <button onClick={handleClick}>open</button>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+    </div>
+  );
+};
+
+// Good
+const MyComponent = () => {
+  const myModal = useModal();
+
+  const handleClick = () => {
+    myModal.setIsOpen(true);
+  };
+
+  return (
+    <div className="MyComponent">
+      <button onClick={handleClick}>open</button>
+      <Modal {...myModal} />
+    </div>
+  );
+};
+```
+
+- Put logic in custom hooks
+
+```jsx
+const MyComponent = () => {
+  const textEditor = useTextEditor();
+
+  return (
+    <div className="MyComponent">
+      <div className="buttons">
+        <button
+          onClick={() => {
+            textEditor.setBold();
+          }}
+        >
+          bold
+        </button>
+      </div>
+      <EditorContent {...textEditor} />
+    </div>
+  );
+};
+```
+
+## Tags
+
+- Alwas self-close tags that have no children.
+
+```jsx
+// bad
+<MyComponent></MyComponent>
+
+// good
+<MyComponent />
+```
